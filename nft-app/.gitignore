@@ -15,8 +15,6 @@ bower_components
 .sw
 ./idea
 *.sublime*
-.env
-.env.local
 
 psd
 thumb
@@ -31,12 +29,4 @@ sketch
 *.code-workspace
 
 # End of https://www.toptal.com/developers/gitignore/api/vscode,react
-cryptus-app/public/sw.js.map
-
-chaos-app/public/sw.js.map
-
-chaos-app/.env.local
-
-*.local
-
-chaos-app/public/workbox-d6d90c3a.js
+codex-app/public/sw.js.map

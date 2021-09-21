@@ -1,0 +1,56 @@
+[
+  {
+    "hash": "01111253842",
+    "decodedHash": [
+      {
+        "0": 1
+      },
+      {
+        "1": 11
+      },
+      {
+        "2": 5
+      },
+      {
+        "3": 8
+      },
+      {
+        "4": 2
+      }
+    ],
+    "edition": 1,
+    "date": 1631798046484,
+    "attributes": [
+      {
+        "id": 1,
+        "layer": "BG_400",
+        "name": "0",
+        "rarity": "original"
+      },
+      {
+        "id": 11,
+        "layer": "Head_400",
+        "name": "9",
+        "rarity": "super rare"
+      },
+      {
+        "id": 5,
+        "layer": "Eyes_400",
+        "name": "4",
+        "rarity": "original"
+      },
+      {
+        "id": 8,
+        "layer": "Mouth_400",
+        "name": "7",
+        "rarity": "original"
+      },
+      {
+        "id": 2,
+        "layer": "Nose_400",
+        "name": "1",
+        "rarity": "original"
+      }
+    ]
+  }
+]
