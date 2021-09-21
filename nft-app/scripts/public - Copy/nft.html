@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<style>
+  body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background-color: black;
+  }
+
+  h1 {
+    color: blue;
+  }
+
+  p {
+    color: red;
+  }
+
+  #c {
+    width: 100vw;
+    height: 100vh;
+    display: block;
+  }
+</style>
+
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+  <script src="https://unpkg.com/p5.createloop@0.2.8/dist/p5.createloop.js"></script>
+
+  <script type="text/javascript" language="javascript">
+    const transactionHash = "0xbd164818a61e6f1e043470ba15ec2";
+    //   const transactionHash = Math.random().toString();
+
+    // window.addEventListener("resize", () => {
+    //   resize();
+    // });
+
+    function resize() {
+      resizeCanvas(window.innerWidth, window.innerWidth);
+    }
+
+    const outlineColors = [
+      [249, 136, 102],
+      [255, 66, 14],
+      [13, 189, 158],
+      [137, 218, 89],
+      [144, 175, 19],
+      [51, 107, 135],
+      [118, 54, 38],
+      [55, 94, 151],
+      [251, 101, 66],
+      [255, 215, 0],
+      [63, 104, 28],
+    ];
+
+    function xmur3(str) {
+      for (var i = 0, h = 1779033703 ^ str.length; i < str.length; i++)
+        (h = Math.imul(h ^ str.charCodeAt(i), 3432918353)),
+          (h = (h << 13) | (h >>> 19));
+      return function () {
+        h = Math.imul(h ^ (h >>> 16), 2246822507);
+        h = Math.imul(h ^ (h >>> 13), 3266489909);
+        return (h ^= h >>> 16) >>> 0;
+      };
+    }
+
+    function mulberry32(a) {
+      return function () {
+        var t = (a += 0x6d2b79f5);
+        t = Math.imul(t ^ (t >>> 15), t | 1);
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+    var seed = xmur3(transactionHash);
+    var rand = mulberry32(seed());
+
+    function randInt(num) {
+      return Math.floor(rand() * num);
+    }
+
+    function randChoose(arr) {
+      return arr[randInt(arr.length)];
+    }
+
+    function randomColor(trp = 255) {
+      const ind = Math.floor(rand() * outlineColors.length);
+      return color(...outlineColors[ind], trp);
+    }
+
+    const pulseFreq = 5;
+    var col;
+    const rotationFreq = 0.5;
+    const phasing = 20;
+    var rationales = 0.01;
+    const base_offsetA = 50;
+    const base_offsetT = 20;
+    const colorSeed = Math.floor(Math.random() * 255);
+    const initialTime = Math.random() * 10000;
+    const nbLines = 20;
+    var minT;
+    var minA;
+    var variation;
+    function setup() {
+      frameRate(30);
+      variation = 0.4; //+ Math.random() * 0.2;
+      console.log("variation=", variation);
+      minA = 10; //10 + randInt(100);
+      minT = 10; //10 + randInt(100);
+      col = randomColor();
+      console.log("col", col);
+      const smallDim = min(window.innerWidth, window.innerHeight);
+      var mycanva = createCanvas(smallDim, smallDim);
+      // mycanva.parent("c");
+      angleMode(DEGREES);
+      rectMode(CENTER);
+
+      // createLoop({
+      //   duration: 12,
+      //   gif: { download: true, startLoop: 1, endLoop: 2 },
+      // });
+    }
+
+    function draw() {
+      background(0, 0, 0, 10);
+      noFill();
+      translate(width / 2, height / 2);
+      // // rationales = rationales * 1.01;
+
+      var r = map(
+        sin(frameCount * pulseFreq),
+        -1,
+        1,
+        col.levels[0] - 50,
+        col.levels[0] + 50
+      );
+      var g = map(
+        sin(frameCount * pulseFreq),
+        -1,
+        1,
+        col.levels[1] - 50,
+        col.levels[1] + 50
+      );
+      var b = map(
+        sin(frameCount * pulseFreq),
+        -1,
+        1,
+        col.levels[2] - 50,
+        col.levels[2] + 50
+      );
+      // console.log(r, g, b);
+      const size = Math.min(width, height);
+      const maxLengthA =
+        size * (nbLines + base_offsetA) * variation * rationales + minA;
+      const maxLengthT =
+        size * (nbLines + base_offsetT) * variation * rationales + minT;
+      const maxLength = Math.max(maxLengthA, maxLengthT);
+      // console.log("ratio = ", size, maxLength);
+      rationales = map(sin(frameCount), -1, 1, 0.02, 0.03);
+
+      for (var i = 0; i < nbLines; i++) {
+        rotate(cos(frameCount) * 10);
+        push();
+        rotateAmount =
+          (frameCount + initialTime) * rotationFreq + phasing * i;
+        rotate(rotateAmount);
+
+        stroke(r, g, b, 40);
+        strokeWeight(1);
+        let a = size * (i + base_offsetA) * variation * rationales + minA;
+        let t = size * (i + base_offsetT) * variation * rationales + minT;
+        let c = 100 + i * size * rationales;
+
+        rect(0, 0, a, t, c);
+        pop();
+      }
+    }
+      // };
+  </script>
+</head>
+
+<body></body>
+
+</html>
