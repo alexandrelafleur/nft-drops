@@ -40,3 +40,5 @@ chaos-app/.env.local
 *.local
 
 chaos-app/public/workbox-d6d90c3a.js
+
+nft-app/public/sw.js.map
